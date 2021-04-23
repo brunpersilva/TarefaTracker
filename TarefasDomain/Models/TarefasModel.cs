@@ -1,6 +1,6 @@
 using System;
 
-namespace TarefasAPi.Models
+namespace TarefasDomain.Models
 {
     public class TarefasModel
     {

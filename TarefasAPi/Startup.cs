@@ -10,10 +10,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TarefasAPi.Interfaces;
-using TarefasAPi.Repository;
+using Tarefas.Domain.Interfaces;
+using TarefasDomain.Repository;
 
-namespace TarefasAPi
+namespace TarefasDomain
 {
     public class Startup
     {

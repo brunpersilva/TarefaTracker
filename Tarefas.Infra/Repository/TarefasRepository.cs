@@ -5,10 +5,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using TarefasAPi.Interfaces;
-using TarefasAPi.Models;
+using Tarefas.Domain.Interfaces;
+using TarefasDomain.Models;
 
-namespace TarefasAPi.Repository
+namespace TarefasDomain.Repository
 {
     public class TarefasRepository : ITarefasRepository
     {
@@ -22,26 +22,26 @@ namespace TarefasAPi.Repository
 
         public int InsertTarefa(TarefasModel tarefa)
         {
-            // define INSERT query with parameters
+         
             string query = "INSERT INTO Tarefas (Titulo, Descricao) " +
                            "VALUES (@Titulo, @Descricao) ";
 
-            // create connection and command
+            
             using (SqlConnection connection = new SqlConnection(_connectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
-                // define parameters and their values
+                
                 command.Parameters.Add("@Titulo", SqlDbType.NVarChar, 100).Value = tarefa.Titulo;
                 command.Parameters.Add("@Descricao", SqlDbType.VarChar, 300).Value = tarefa.Descricao;
 
-                // open connection, execute INSERT, close connection
+                
                 connection.Open();
                 return command.ExecuteNonQuery();
             }
 
         }
 
-        public int DeleteTarefa(int Id)
+        public int ExcluirTarefa(int Id)
         {
             // define INSERT query with parameters
             string query = $"Delete From Tarefas Where Id = @Id";
@@ -57,10 +57,8 @@ namespace TarefasAPi.Repository
                 return command.ExecuteNonQuery();
             }
         }
-        //UPDATE table_name
-        //SET column1 = value1, column2 = value2, ...
-        //WHERE condition;
-        public int UpdateTarefa(TarefasModel tarefa)
+
+        public int AtualizarTarefa(TarefasModel tarefa)
         {
             // define INSERT query with parameters
             string query = "Update Tarefas  set Titulo = @Titulo,  Descricao = @Descricao Where Id = @Id";                          
@@ -108,7 +106,7 @@ namespace TarefasAPi.Repository
             return tarefa;
         }
 
-        public IEnumerable<TarefasModel> GetTarefas()
+        public IEnumerable<TarefasModel> ObterTodasTarefas()
         {
             var tarefas = new List<TarefasModel>();
             using (var connection = new SqlConnection(_connectionString))

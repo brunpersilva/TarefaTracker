@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TarefasAPi", "TarefasAPi\TarefasAPi.csproj", "{935C0F28-CF02-455D-AE19-22EC1E601DB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tarefas.APi", "TarefasAPi\Tarefas.APi.csproj", "{935C0F28-CF02-455D-AE19-22EC1E601DB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tarefas.Domain", "TarefasDomain\Tarefas.Domain.csproj", "{190CC294-24FA-4DA5-8500-309CA8F4FBE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tarefas.Infra", "Tarefas.Infra\Tarefas.Infra.csproj", "{216C6408-BE94-4FFC-876A-A48B91EB7B00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{935C0F28-CF02-455D-AE19-22EC1E601DB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{935C0F28-CF02-455D-AE19-22EC1E601DB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{935C0F28-CF02-455D-AE19-22EC1E601DB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{190CC294-24FA-4DA5-8500-309CA8F4FBE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{190CC294-24FA-4DA5-8500-309CA8F4FBE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{190CC294-24FA-4DA5-8500-309CA8F4FBE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{190CC294-24FA-4DA5-8500-309CA8F4FBE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216C6408-BE94-4FFC-876A-A48B91EB7B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216C6408-BE94-4FFC-876A-A48B91EB7B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216C6408-BE94-4FFC-876A-A48B91EB7B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216C6408-BE94-4FFC-876A-A48B91EB7B00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

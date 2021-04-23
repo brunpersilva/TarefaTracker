@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TarefasAPi.Models;
+using TarefasDomain.Models;
 
-namespace TarefasAPi.Interfaces
+namespace Tarefas.Domain.Interfaces
 {
     public interface ITarefasRepository
     {
         int InsertTarefa(TarefasModel tarefa);
-        int DeleteTarefa(int id);
-        int UpdateTarefa(TarefasModel tarefa); 
+        int ExcluirTarefa(int id);
+        int AtualizarTarefa(TarefasModel tarefa);
         TarefasModel ObterTarefaPorId(int id);
-        IEnumerable<TarefasModel> GetTarefas();
-       
+        IEnumerable<TarefasModel> ObterTodasTarefas();
+
     }
 }

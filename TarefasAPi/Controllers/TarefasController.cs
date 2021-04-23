@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TarefasAPi.Interfaces;
-using TarefasAPi.Models;
+using Tarefas.Domain.Interfaces;
+using TarefasDomain.Models;
 
-namespace TarefasAPi.Controllers
+namespace TarefasDomain.Controllers
 {
     [ApiController]
     [Route("api/tarefas")]
@@ -36,7 +36,7 @@ namespace TarefasAPi.Controllers
         [Route("GetTarefas")]
         public IActionResult Get()
         {
-            var result = _tarefasRepository.GetTarefas();
+            var result = _tarefasRepository.ObterTodasTarefas();
 
             return Ok(result);
         }
@@ -56,7 +56,7 @@ namespace TarefasAPi.Controllers
         [Route("AtualizarTarefa")]
         public IActionResult AtualizarTarefa([FromBody] TarefasModel tarefas)
         {
-            var status = _tarefasRepository.UpdateTarefa(tarefas);
+            var status = _tarefasRepository.AtualizarTarefa(tarefas);
 
             if (status != 1)
                 return StatusCode(500, "Error ao excluir tarefa");
@@ -68,7 +68,7 @@ namespace TarefasAPi.Controllers
         [Route("ExcluirTarefa/{Id}")]
         public IActionResult Delete([FromRoute] int id)
         {
-            var status = _tarefasRepository.DeleteTarefa(id);
+            var status = _tarefasRepository.ExcluirTarefa(id);
 
             if (status != 1)
                 return StatusCode(500, "Error ao excluir tarefa");
