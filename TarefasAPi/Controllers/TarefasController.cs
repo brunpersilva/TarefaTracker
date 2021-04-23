@@ -1,80 +1,46 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tarefas.Domain.Interfaces;
+using Tarefas.Infra.Tarefa.Command;
 using TarefasDomain.Models;
 
-namespace TarefasDomain.Controllers
+namespace Tarefas.APi.Controllers
 {
     [ApiController]
     [Route("api/tarefas")]
-    public class TarefasController : ControllerBase
-    {
-        private readonly ITarefasRepository _tarefasRepository;
-
-        public TarefasController(ITarefasRepository tarefasRepository)
-        {
-            _tarefasRepository = tarefasRepository;
-        }
+    public class TarefasController : BaseController
+    {        
 
         [HttpGet]
-        [Route("GetTarefa/{Id}")]
-        public IActionResult GetTarefaPorId([FromRoute] int id)
-        {
-            var tarefa = _tarefasRepository.ObterTarefaPorId(id);
+        [Route("GetTarefa/{id}")]
+        public async Task<IActionResult> GetTarefaPorId([FromRoute] int id) =>
+            Ok(await Mediator.Send(new GetTarefaCommand {Id = id }));
 
-            if (tarefa == null)
-                return NotFound();
-
-            return Ok(tarefa);
-        }
 
         [HttpGet]
-        [Route("GetTarefas")]
-        public IActionResult Get()
-        {
-            var result = _tarefasRepository.ObterTodasTarefas();
-
-            return Ok(result);
-        }
+        [Route("GetAllTarefas")]
+        public async Task<IActionResult> GetAllTarefas() =>
+            Ok(await Mediator.Send(new GetAllTarefasCommand { }));
 
         [HttpPost]
         [Route("InserirTarefa")]
-        public IActionResult InserirTarefa([FromBody] TarefasModel tarefas)
-        {
-            var novaTarefa = new TarefasModel { Titulo = tarefas.Titulo, Descricao = tarefas.Descricao };
-
-            var result = _tarefasRepository.InsertTarefa(novaTarefa);
-
-            return Ok(result);
-        } 
+        public async Task<IActionResult> InserirTarefa([FromBody] InsertTarefaCommand request) =>
+            Ok(await Mediator.Send(request));
 
         [HttpPost]
         [Route("AtualizarTarefa")]
-        public IActionResult AtualizarTarefa([FromBody] TarefasModel tarefas)
-        {
-            var status = _tarefasRepository.AtualizarTarefa(tarefas);
-
-            if (status != 1)
-                return StatusCode(500, "Error ao excluir tarefa");
-
-            return NoContent();
-        }
+        public async Task<IActionResult> AtualizarTarefa([FromBody] AtualizarTarefaCommand request) =>
+            Ok(await Mediator.Send(request));
 
         [HttpDelete]
         [Route("ExcluirTarefa/{Id}")]
-        public IActionResult Delete([FromRoute] int id)
-        {
-            var status = _tarefasRepository.ExcluirTarefa(id);
-
-            if (status != 1)
-                return StatusCode(500, "Error ao excluir tarefa");
-
-            return NoContent();
-        }
+        public async Task<IActionResult> RemoverTarefa([FromRoute] int id) =>
+            Ok(await Mediator.Send(new RemoverTarefaCommand { Id = id }));        
 
     }
 }

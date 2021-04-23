@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Tarefas.Domain.Interfaces;
+using Tarefas.Infra.Tarefa.Command;
 using TarefasDomain.Repository;
 
 namespace TarefasDomain
@@ -28,7 +30,9 @@ namespace TarefasDomain
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddTransient<ITarefasRepository, TarefasRepository>();
+            services.AddScoped<ITarefasRepository, TarefasRepository>();
+            services.AddMediatR(typeof(InsertTarefaCommand).Assembly);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
