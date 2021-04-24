@@ -21,7 +21,6 @@ namespace Tarefas.APi.Controllers
         public async Task<IActionResult> GetTarefaPorId([FromRoute] int id) =>
             Ok(await Mediator.Send(new GetTarefaCommand {Id = id }));
 
-
         [HttpGet]
         [Route("GetAllTarefas")]
         public async Task<IActionResult> GetAllTarefas() =>

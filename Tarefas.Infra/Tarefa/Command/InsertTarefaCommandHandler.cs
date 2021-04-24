@@ -34,10 +34,10 @@ namespace Tarefas.Infra.Tarefa.Command
 
                 command.Parameters.Add("@Titulo", SqlDbType.NVarChar, 100).Value = request.Titulo;
                 command.Parameters.Add("@Descricao", SqlDbType.VarChar, 300).Value = request.Descricao;
-                
+
                 connection.Open();
                 newID = (int)command.ExecuteScalar();
-                command.ExecuteNonQuery();
+                await command.ExecuteNonQueryAsync();
             }
 
             return new TarefaCriada

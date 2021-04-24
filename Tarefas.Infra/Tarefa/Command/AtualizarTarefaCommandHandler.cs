@@ -37,7 +37,7 @@ namespace Tarefas.Infra.Tarefa.Command
                 command.Parameters.Add("@Descricao", SqlDbType.VarChar, 300).Value = request.Descricao;
 
                 // open connection, execute INSERT, close connection
-                connection.Open();
+                await connection.OpenAsync();
                 var result = command.ExecuteNonQuery();
     
 

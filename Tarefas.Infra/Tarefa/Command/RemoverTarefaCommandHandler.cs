@@ -33,7 +33,7 @@ namespace Tarefas.Infra.Tarefa.Command
                 command.Parameters.Add("@Id", SqlDbType.Int, 100).Value = request.Id;
 
                 // open connection, execute INSERT, close connection
-                connection.Open();
+                await connection.OpenAsync();
                 command.ExecuteNonQuery();
             }
 

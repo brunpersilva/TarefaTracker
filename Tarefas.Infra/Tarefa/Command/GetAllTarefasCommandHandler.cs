@@ -34,7 +34,7 @@ namespace Tarefas.Infra.Tarefa.Command
 
                 var command = new SqlCommand(query, connection);
 
-                connection.Open();
+                await connection.OpenAsync();
                 var reader = command.ExecuteReader();
 
                 while (reader.Read())

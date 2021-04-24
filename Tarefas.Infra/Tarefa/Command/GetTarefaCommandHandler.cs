@@ -38,7 +38,7 @@ namespace Tarefas.Infra.Tarefa.Command
 
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         tarefa.Id = Convert.ToInt32(reader["Id"]);
                         tarefa.Titulo = reader["Titulo"].ToString();
