@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "f4e4ac74-fbf1-403e-9fd3-702d3a610f8e",
+		"name": "Tarefas Api Request",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Inserir Tarefa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Titulo\": \"Teste\",\r\n    \"Descricao\" : \"Testando\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44377/api/tarefas/InserirTarefa",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44377",
+					"path": [
+						"api",
+						"tarefas",
+						"InserirTarefa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obter tarefa",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44377/api/tarefas/GetTarefa/9",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44377",
+					"path": [
+						"api",
+						"tarefas",
+						"GetTarefa",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obter Todas tarefas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44377/api/tarefas/GetAllTarefas",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44377",
+					"path": [
+						"api",
+						"tarefas",
+						"GetAllTarefas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir tarefa",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44377/api/tarefas/ExcluirTarefa/2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44377",
+					"path": [
+						"api",
+						"tarefas",
+						"ExcluirTarefa",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar tarefa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Id\": 9,\r\n    \"Titulo\": \"Update2\",\r\n    \"Descricao\" : \"Updated\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44377/api/tarefas/AtualizarTarefa",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44377",
+					"path": [
+						"api",
+						"tarefas",
+						"AtualizarTarefa"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
