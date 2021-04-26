@@ -5,14 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Tarefas.Domain.Interfaces;
 using Tarefas.Infra.Tarefa.Command;
 using TarefasDomain.Models;
 
 namespace Tarefas.APi.Controllers
 {
     [ApiController]
-    [Route("api/tarefas")]
+    [Route("api/tarefas")]    
     public class TarefasController : BaseController
     {        
 
