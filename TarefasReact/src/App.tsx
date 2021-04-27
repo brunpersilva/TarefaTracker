@@ -1,70 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
-import axios, { CancelTokenSource } from 'axios';
+import axios from 'axios';
+import Loading from './components/loading';
+import Tarefas from './components/tarefa';
+import { ITarefa } from './components/interfaces/interfaces';
 
-interface IPost {
-  id: number;
-  titulo: string;
-  descricao: string;
+class App extends Component{
+  state = {tarefas: [] };
+ async componentDidMount(){
+    let result = await axios.get('https://localhost:44377/api/tarefas/GetAllTarefas');
+    this.setState({tarefas: result.data});
+
 }
-
-const defaultPosts:IPost[] = [];
-
-const App = () => {
-  const [posts, setPosts]: [IPost[], (posts: IPost[]) => void] = React.useState(defaultPosts);
-  const [loading, setLoading]: [boolean, (loading: boolean) => void] = React.useState<boolean>(true);
-  const [error, setError]: [string, (error: string) => void] = React.useState("");
-  const cancelToken = axios.CancelToken; 
-  const [cancelTokenSource, setCancelTokenSource]: [CancelTokenSource,(cancelTokenSource: CancelTokenSource) => void] = React.useState(cancelToken.source());
-  
-  React.useEffect(() => {
-    axios
-        .get<IPost[]>("https://localhost:44377/api/tarefas/GetTarefas/3", {
-          headers: {
-            "Content-Type": "application/json"
-          },
-          timeout: 1000   
-        })
-        .then(response => {
-          setPosts(response.data);
-          setLoading(false);
-        })
-        .catch(ex => {
-          const error =
-          ex.code === "ECONNABORTED"
-          ? "A timeout has occurred"
-          : ex.response.status === 404           
-          ? "Resource Not found"
-          : "An unexpected error has occurred";
-          setError(error);
-          setLoading(false);
+  render(){
+  return(
+    <div className='container'>
+        {this.state.tarefas.length > 0 ? (
           
-        });
-    }, []);
+        <div>
+          
+          <ul className="list-group">
 
+            {this.state.tarefas.map((todo : ITarefa)=>             
+            Tarefas(todo))}
 
-    return (
-      <div className="App">
-       <ul className="posts">
-         {posts.map((post) => (
-          <li key={post.id}>
-           <h3>{post.titulo}</h3>
-           <p>{post.descricao}</p>
-          </li>
-        ))}
-       </ul>
-       {error && <p className="error">{error}</p>}
-     </div>
-     );
-  
+          </ul>
+          </div>
+          
+          
+        ) : (
+        <Loading />
+        )}
+    </div>  
+  );
+  }
 }
-
-
-
-
-
-
-
 
 export default App;
