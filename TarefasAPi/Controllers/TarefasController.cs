@@ -20,10 +20,10 @@ namespace Tarefas.APi.Controllers
         public async Task<IActionResult> GetTarefaPorId([FromRoute] int id) =>
             Ok(await Mediator.Send(new GetTarefaCommand {Id = id }));
 
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllTarefas")]
-        public async Task<IActionResult> GetAllTarefas() =>
-            Ok(await Mediator.Send(new GetAllTarefasCommand { }));
+        public async Task<IActionResult> GetAllTarefas([FromBody] GetAllTarefasCommand request) =>
+            Ok(await Mediator.Send(request));
 
         [HttpPost]
         [Route("InserirTarefa")]

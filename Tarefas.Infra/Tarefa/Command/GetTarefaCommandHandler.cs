@@ -25,7 +25,7 @@ namespace Tarefas.Infra.Tarefa.Command
 
         public async Task<TarefaCriada> Handle(GetTarefaCommand request, CancellationToken cancellationToken)
         {
-            var tarefa = new TarefasModel();
+            var tarefa = new TarefaModel();
 
             using (var connection = new SqlConnection(_connectionString))
             {

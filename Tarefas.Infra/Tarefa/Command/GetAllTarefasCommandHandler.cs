@@ -9,10 +9,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using Tarefas.Infra.Tarefa.Model;
 using TarefasDomain.Models;
+using System.Data;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetAllTarefasCommandHandler : IRequestHandler<GetAllTarefasCommand, IList<TarefaCriada>>
+    public class GetAllTarefasCommandHandler : IRequestHandler<GetAllTarefasCommand, TarefasModel>
     {
 
         private IConfiguration _configuration { get; }
@@ -24,15 +25,29 @@ namespace Tarefas.Infra.Tarefa.Command
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<IList<TarefaCriada>> Handle(GetAllTarefasCommand request, CancellationToken cancellationToken)
+        public async Task<TarefasModel> Handle(GetAllTarefasCommand request, CancellationToken cancellationToken)
         {
-            var tarefas = new List<TarefaCriada>();
+            var tarefas = new TarefasModel {Tarefas = new List<TarefaCriada>(),  Pagina = new PaginacaoModel() };
+            tarefas.Pagina.CurrentIndex = request.Page.CurrentIndex;
+            tarefas.Pagina.LastRecord = request.Page.LastRecord;
+            tarefas.Pagina.PageSize = request.Page.PageSize;
 
             using (var connection = new SqlConnection(_connectionString))
-            {
-                var query = $"SELECT Id, Titulo, Descricao FROM Tarefas";
-
+            {              
+                var query = $"SELECT TOP {tarefas.Pagina.PageSize} Id, Titulo, Descricao FROM Tarefas WHERE Id > {tarefas.Pagina.LastRecord} ORDER BY Id";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                adapter.SelectCommand.CommandText = query;
+                DataSet dataSet = new DataSet();
+                adapter.Fill(dataSet, "Tarefas");
                 var command = new SqlCommand(query, connection);
+
+                string lastRecord = dataSet.Tables["Tarefas"].Rows[tarefas.Pagina.PageSize - 1]["Id"].ToString();
+
+                tarefas.Pagina.CurrentIndex += tarefas.Pagina.PageSize;
+
+                dataSet.Tables["Tarefas"].Rows.Clear();
+
+                adapter.Fill(dataSet, tarefas.Pagina.CurrentIndex, tarefas.Pagina.PageSize, "Tarefas");
 
                 await connection.OpenAsync();
                 var reader = command.ExecuteReader();
@@ -45,7 +60,7 @@ namespace Tarefas.Infra.Tarefa.Command
                         Titulo = reader["Titulo"].ToString(),
                         Descricao = reader["Descricao"].ToString()
                     };
-                    tarefas.Add(tarefa);
+                    tarefas.Tarefas.Add(tarefa);
                 };
 
                 connection.Close();

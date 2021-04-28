@@ -2,7 +2,7 @@ using System;
 
 namespace TarefasDomain.Models
 {
-    public class TarefasModel
+    public class TarefaModel
     {
         public int Id { get; set; }
         public string Titulo { get; set; }

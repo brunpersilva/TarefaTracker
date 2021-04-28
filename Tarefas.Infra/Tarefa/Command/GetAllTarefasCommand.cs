@@ -6,7 +6,8 @@ using Tarefas.Infra.Tarefa.Model;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetAllTarefasCommand : IRequest<IList<TarefaCriada>>
+    public class GetAllTarefasCommand : IRequest<TarefasModel>
     {
+        public PaginacaoModel Page { get; set; }
     }
 }
