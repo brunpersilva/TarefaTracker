@@ -24,3 +24,19 @@ export interface TodoItemInterface{
     handleTodoComplete:  (id: string) => void;
     todo: TodoInterface;
 }
+
+export interface ITarefa{
+    id: number;
+    titulo: String;
+    descricao: String;
+}
+
+export interface ITarefas{
+    tarefas: ITarefa[];
+}
+
+export interface IPage {
+    pageSize: number;
+    currentIndex: number;
+    lastRecord: number;
+  }
