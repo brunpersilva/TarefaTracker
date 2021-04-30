@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 using Tarefas.Infra.Tarefa.Model;
 using TarefasDomain.Models;
 using System.Data;
+using Tarefas.Infra.Tarefa.Model.PaginacaoModels;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetAllTarefasCommandHandler : IRequestHandler<GetAllTarefasCommand, TarefasModel>
+    public class GetAllTarefasCommandHandler : IRequestHandler<GetAllTarefasCommand, ResultadoBuscaTarefasModel>
     {
 
         private IConfiguration _configuration { get; }
@@ -25,48 +26,43 @@ namespace Tarefas.Infra.Tarefa.Command
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<TarefasModel> Handle(GetAllTarefasCommand request, CancellationToken cancellationToken)
+        public async Task<ResultadoBuscaTarefasModel> Handle(GetAllTarefasCommand request, CancellationToken cancellationToken)
         {
-            var tarefas = new TarefasModel {Tarefas = new List<TarefaCriada>(),  Pagina = new PaginacaoModel() };
-            tarefas.Pagina.CurrentIndex = request.Page.CurrentIndex;
-            tarefas.Pagina.LastRecord = request.Page.LastRecord;
-            tarefas.Pagina.PageSize = request.Page.PageSize;
+            var result = new ResultadoBuscaTarefasModel { Tarefas = new List<TarefaCriada>(), Paginacao = new ResultadoBuscaPaginadaModel() };
+            result.Paginacao.PaginaAtual = request.PaginaAtual;
 
-            using (var connection = new SqlConnection(_connectionString))
-            {              
-                var query = $"SELECT TOP {tarefas.Pagina.PageSize} Id, Titulo, Descricao FROM Tarefas WHERE Id > {tarefas.Pagina.LastRecord} ORDER BY Id";
-                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                adapter.SelectCommand.CommandText = query;
-                DataSet dataSet = new DataSet();
-                adapter.Fill(dataSet, "Tarefas");
-                var command = new SqlCommand(query, connection);
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlCommand command = new SqlCommand("spGetAllTarefas", connection))
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@ItensPorPagina", request.ItensPorPagina);
+                command.Parameters.AddWithValue("@PaginaAtual", request.PaginaAtual);
+                connection.Open();
 
-                string lastRecord = dataSet.Tables["Tarefas"].Rows[tarefas.Pagina.PageSize - 1]["Id"].ToString();
-
-                tarefas.Pagina.CurrentIndex += tarefas.Pagina.PageSize;
-
-                dataSet.Tables["Tarefas"].Rows.Clear();
-
-                adapter.Fill(dataSet, tarefas.Pagina.CurrentIndex, tarefas.Pagina.PageSize, "Tarefas");
-
-                await connection.OpenAsync();
-                var reader = command.ExecuteReader();
+                var reader = await command.ExecuteReaderAsync();
 
                 while (reader.Read())
                 {
+
                     var tarefa = new TarefaCriada
                     {
                         Id = Convert.ToInt32(reader["Id"]),
                         Titulo = reader["Titulo"].ToString(),
                         Descricao = reader["Descricao"].ToString()
                     };
-                    tarefas.Tarefas.Add(tarefa);
+                    result.Tarefas.Add(tarefa);
+
                 };
 
-                connection.Close();
+                reader.NextResult();
+                reader.Read();
+
+                result.Paginacao.TotalItens = Convert.ToInt32(reader["TotalItens"]);
+                result.Paginacao.TotalPaginas = Convert.ToInt32(reader["TotalPages"]);
+
             }
 
-            return tarefas;
+            return result;
         }
 
 
