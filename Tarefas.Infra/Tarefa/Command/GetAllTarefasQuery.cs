@@ -7,7 +7,7 @@ using Tarefas.Infra.Tarefa.Model.PaginacaoModels;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetAllTarefasCommand : IRequest<ResultadoBuscaTarefasModel>
+    public class GetAllTarefasQuery : IRequest<ResultadoBuscaTarefasModel>
     {
         public int PaginaAtual { get; set; }
 

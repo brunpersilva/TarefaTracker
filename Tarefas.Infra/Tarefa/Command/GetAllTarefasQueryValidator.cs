@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetAllTarefasCommandValidator : AbstractValidator<GetAllTarefasCommand>
+    public class GetAllTarefasQueryValidator : AbstractValidator<GetAllTarefasQuery>
     {
-        public GetAllTarefasCommandValidator()
+        public GetAllTarefasQueryValidator()
         {
             RuleFor(x => x.ItensPorPagina).NotEmpty().NotNull();
 

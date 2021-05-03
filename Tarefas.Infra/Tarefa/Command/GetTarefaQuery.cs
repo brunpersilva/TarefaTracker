@@ -6,7 +6,7 @@ using Tarefas.Infra.Tarefa.Model;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetTarefaCommand : IRequest<TarefaCriada>
+    public class GetTarefaQuery : IRequest<TarefaCriada>
     {
         public int Id { get; set; }
     }

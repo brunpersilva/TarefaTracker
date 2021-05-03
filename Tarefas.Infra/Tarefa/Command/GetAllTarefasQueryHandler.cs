@@ -14,19 +14,19 @@ using Tarefas.Infra.Tarefa.Model.PaginacaoModels;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetAllTarefasCommandHandler : IRequestHandler<GetAllTarefasCommand, ResultadoBuscaTarefasModel>
+    public class GetAllTarefasQueryHandler : IRequestHandler<GetAllTarefasQuery, ResultadoBuscaTarefasModel>
     {
 
         private IConfiguration _configuration { get; }
         readonly string _connectionString;
 
-        public GetAllTarefasCommandHandler(IConfiguration configuration)
+        public GetAllTarefasQueryHandler(IConfiguration configuration)
         {
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<ResultadoBuscaTarefasModel> Handle(GetAllTarefasCommand request, CancellationToken cancellationToken)
+        public async Task<ResultadoBuscaTarefasModel> Handle(GetAllTarefasQuery request, CancellationToken cancellationToken)
         {
             var result = new ResultadoBuscaTarefasModel { Tarefas = new List<TarefaCriada>(), Paginacao = new ResultadoBuscaPaginadaModel() };
             result.Paginacao.PaginaAtual = request.PaginaAtual;

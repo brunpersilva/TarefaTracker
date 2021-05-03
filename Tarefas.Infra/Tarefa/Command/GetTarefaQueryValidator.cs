@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetTarefaCommandValidator : AbstractValidator<GetTarefaCommand>
+    public class GetTarefaQueryValidator : AbstractValidator<GetTarefaQuery>
     {
-        public GetTarefaCommandValidator()
+        public GetTarefaQueryValidator()
         {
             RuleFor(x => x.Id).NotEmpty();
         }
