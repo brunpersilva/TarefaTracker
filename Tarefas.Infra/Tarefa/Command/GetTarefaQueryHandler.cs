@@ -11,19 +11,19 @@ using TarefasDomain.Models;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
-    public class GetTarefaCommandHandler : IRequestHandler<GetTarefaCommand, TarefaCriada>
+    public class GetTarefaQueryHandler : IRequestHandler<GetTarefaQuery, TarefaCriada>
     {
 
         private IConfiguration _configuration { get; }
         readonly string _connectionString;
 
-        public GetTarefaCommandHandler(IConfiguration configuration)
+        public GetTarefaQueryHandler(IConfiguration configuration)
         {
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<TarefaCriada> Handle(GetTarefaCommand request, CancellationToken cancellationToken)
+        public async Task<TarefaCriada> Handle(GetTarefaQuery request, CancellationToken cancellationToken)
         {
             var tarefa = new TarefaModel();
 

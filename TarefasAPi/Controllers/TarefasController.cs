@@ -18,11 +18,11 @@ namespace Tarefas.APi.Controllers
         [HttpGet]
         [Route("GetTarefa/{id}")]
         public async Task<IActionResult> GetTarefaPorId([FromRoute] int id) =>
-            Ok(await Mediator.Send(new GetTarefaCommand {Id = id }));
+            Ok(await Mediator.Send(new GetTarefaQuery {Id = id }));
 
         [HttpPost]
         [Route("GetAllTarefas")]
-        public async Task<IActionResult> GetAllTarefas([FromBody] GetAllTarefasCommand request) =>
+        public async Task<IActionResult> GetAllTarefas([FromBody] GetAllTarefasQuery request) =>
             Ok(await Mediator.Send(request));
 
         [HttpPost]
