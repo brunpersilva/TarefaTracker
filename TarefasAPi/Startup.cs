@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Tarefas.Infra.AppConfigurations;
 using Tarefas.Infra.Tarefa.Command;
 
 namespace TarefasDomain
@@ -23,7 +23,9 @@ namespace TarefasDomain
         {
             services.AddCors();
             services.AddControllers();
-            services.AddMediatR(typeof(InsertTarefaCommand).Assembly);   
+            services.AddMediatR(typeof(InsertTarefaCommand).Assembly);
+
+            services.AddSingleton(typeof(IAppConfiguration), new AppConfiguration { ConnectionString = Configuration.GetConnectionString("DefaultConnection") });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

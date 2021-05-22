@@ -1,11 +1,11 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tarefas.Infra.AppConfigurations;
 using Tarefas.Infra.Tarefa.Model;
 using TarefasDomain.Models;
 
@@ -14,20 +14,19 @@ namespace Tarefas.Infra.Tarefa.Command
     public class GetTarefaQueryHandler : IRequestHandler<GetTarefaQuery, TarefaCriada>
     {
 
-        private IConfiguration _configuration { get; }
-        readonly string _connectionString;
+        private IAppConfiguration _configuration { get; }
 
-        public GetTarefaQueryHandler(IConfiguration configuration)
+
+        public GetTarefaQueryHandler(IAppConfiguration configuration)
         {
             _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
         public async Task<TarefaCriada> Handle(GetTarefaQuery request, CancellationToken cancellationToken)
         {
             var tarefa = new TarefaModel();
 
-            using (var connection = new SqlConnection(_connectionString))
+            using (var connection = new SqlConnection(_configuration.ConnectionString))
             {
                 var query = $"SELECT Id, Titulo, Descricao FROM Tarefas WHERE Id = {request.Id}";
 

@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,19 +6,19 @@ using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Tarefas.Infra.AppConfigurations;
 using Tarefas.Infra.Tarefa.Model;
 
 namespace Tarefas.Infra.Tarefa.Command
 {
     public class AtualizarTarefaCommandHandler : IRequestHandler<AtualizarTarefaCommand, TarefaCriada>
     {
-        private IConfiguration _configuration { get; }
-        readonly string _connectionString;
+        private IAppConfiguration _configuration { get; }
 
-        public AtualizarTarefaCommandHandler(IConfiguration configuration)
+
+        public AtualizarTarefaCommandHandler(IAppConfiguration configuration)
         {
-            _configuration = configuration;
-            _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _configuration = configuration;           
         }
 
         public async Task<TarefaCriada> Handle(AtualizarTarefaCommand request, CancellationToken cancellationToken)
@@ -28,7 +27,7 @@ namespace Tarefas.Infra.Tarefa.Command
             string query = "Update Tarefas  set Titulo = @Titulo,  Descricao = @Descricao Where Id = @Id";
 
             // create connection and command
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SqlConnection connection = new SqlConnection(_configuration.ConnectionString))
             using (SqlCommand command = new SqlCommand(query, connection))
             {
                 // define parameters and their values
