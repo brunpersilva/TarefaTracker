@@ -11,10 +11,37 @@ using Tarefas.Infra.Tarefa.Command;
 namespace Tarefa.Infra.Tests
 {
     public class GetTarefaQueryHandlerTest
-    { 
-        [SetUp]
+    {
         [Test]
-        public void Setup()
+        public void GetTarefaShouldWork()
+        {
+            IConfiguration configuration = Configure();
+
+            var query = new GetTarefaQuery
+            {
+                Id = 9
+            };
+            var handler = new GetTarefaQueryHandler(configuration);
+
+            var result = handler.Handle(query, CancellationToken.None);
+            Assert.AreEqual(query.Id, result.Result.Id);
+        }
+        [Test]
+        public void GetTarefaShouldNotWorkWhenIdIsInvalid()
+        {
+            IConfiguration configuration = Configure();
+
+            var query = new GetTarefaQuery
+            {
+                Id = -1
+            };
+            var handler = new GetTarefaQueryHandler(configuration);
+
+            var result = handler.Handle(query, CancellationToken.None);
+            Assert.IsNull(result.Result);
+        }
+
+        private static IConfiguration Configure()
         {
             var inMemorySettings = new Dictionary<string, string> {
                         {"ConnectionStrings:DefaultConnection", "Data Source=localhost;Initial Catalog=Tarefas_Banco;Integrated Security=True"},
@@ -23,23 +50,8 @@ namespace Tarefa.Infra.Tests
             IConfiguration configuration = new ConfigurationBuilder()
                 .AddInMemoryCollection(inMemorySettings)
                 .Build();
-
-
-            var query = CreateCommand();
-            var handler = new GetTarefaQueryHandler(configuration);
-
-            var result = handler.Handle(query, CancellationToken.None);
-            Assert.AreEqual(result.Result.Id, query.Id);
+            return configuration;
         }
-
-        private GetTarefaQuery CreateCommand()
-        {
-            return new GetTarefaQuery
-            {
-                Id = 9
-            };
-        }
-
 
     }
 }
